@@ -305,10 +305,11 @@ Password: devops@2022
 `sudo nano get_metrics`
 
 5. Edit the below lines in the file with sonarqube token, gitlab token and gitlab project id respectively\
-sonarqube_token = 'paste the sonarqube token here'\
-gitlab_token = 'paste the gitlab token here'\
+```
+sonarqube_token = 'paste the sonarqube token here'
+gitlab_token = 'paste the gitlab token here'
 gitlab_project_id = 'paste the Project ID here'
-
+```
 ## Configure Docker in Integration server
 
 1. Get to `cd <root_folder>/devops/pipeline/integration-server`
