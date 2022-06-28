@@ -217,7 +217,7 @@ gitlab_project_id = 'paste the Project ID here'
 2. Open the "welcomeWebApplication" repository
 3. create a new file with the name `.gitlab-ci.yml`\
 
-`image: maven:3.6.2-jdk-8
+```image: maven:3.6.2-jdk-8
 
 stages:
   - build
@@ -310,7 +310,7 @@ prod_deployment:
     - sudo chown tomcat:tomcat $APACHE_WEBAPPS/$RESOURCE_NAME
 
     - echo "Start up Tomcat"
-    - sudo sh $APACHE_BIN/startup.sh`
+    - sudo sh $APACHE_BIN/startup.sh```
  
 
 
