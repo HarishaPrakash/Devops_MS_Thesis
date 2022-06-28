@@ -137,9 +137,9 @@ Post conditions:
 * Click on **new user**
 * enter below details
 ```
-  * name : devops
-  *  username: devops
-  *  email: your email id
+name : devops
+username: devops
+email: your email id
 ```
 * Click on _Create user_
 
