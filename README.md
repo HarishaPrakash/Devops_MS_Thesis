@@ -150,7 +150,7 @@ Post conditions:
 5. click on _Save changes_
 6. Logout from **_root_** user
 
-####Login to Gitlab with user **devops**
+#### Login to Gitlab with user **devops**
 1. Login with user **_devops_**
 2. username: **devops**
 3. password: **$PROJECT_TEMP_PASSWORD**
