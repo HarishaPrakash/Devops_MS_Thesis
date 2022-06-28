@@ -596,6 +596,8 @@ For Example: `85y84QhgbyaqWo38b7qg`
 ```image: maven:3.6.2-jdk-8
 
 stages:
+  - sonar
+  - metrics
   - build
   - upload
   - deploy
@@ -620,6 +622,19 @@ cache:
   paths:
     - .m2/repository
     - welcome-webapplication/target/
+
+sonarqube_app:
+  stage: sonar
+  tags:
+    - integration
+  script:
+    - mvn -f welcome-webapplication/pom.xml --batch-mode verify --fail-never sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=SONAR_USER -Dsonar.password=$SONAR_PASSWORD
+
+metrics_app:
+  stage: metrics
+  tags:
+    - integration-shell
+  script: python /vagrant_scripts/get_metrics.py
 
 build_app:
   stage: build
@@ -686,7 +701,8 @@ prod_deployment:
     - sudo chown tomcat:tomcat $APACHE_WEBAPPS/$RESOURCE_NAME
 
     - echo "Start up Tomcat"
-    - sudo sh $APACHE_BIN/startup.sh```
+    - sudo sh $APACHE_BIN/startup.sh
+```
  
 
 
