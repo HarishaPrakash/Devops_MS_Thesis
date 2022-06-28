@@ -221,7 +221,7 @@ Post conditions:
 
 2. Set the password for user **_admin_** (referred as **_$SONAR_PASSWORD_** in future)
 
-## Create API Token in SonarQube
+### Create API Token in SonarQube
 
 1. Login to Sonarqube http://192.168.56.15:9000/ with username **_admin_** and **_$SONAR_PASSWORD_** 
 
