@@ -101,7 +101,7 @@ Post conditions:
 - Grafana is accessible at the indicated URL
 #### *** Test Case End ***
 
-#### _Test:_ 
+#### *** Test Case ***
 Test case: Check if the **Sonarqube** is accessible in below URL\
 
 _Test Steps:_
@@ -109,10 +109,11 @@ _Test Steps:_
 
 Post conditions:
 - Sonarqube is accessible at the indicated URL
+#### *** Test Case End ***
 
 ## Set up GITLAB
 
-### Setup root password and create a non-root user
+### Setup root password
 
 1. Create a password for the **_root_** user and remember this password for future use. (referred as **_$ROOT_PASSWORD_** later)
 2. Login into Gitlab with **_root_** user and **_$ROOT_PASSWORD_**
@@ -130,13 +131,14 @@ Post conditions:
 
 #### **** Test Case End ****
 
+### Create a non-root user in Gitlab
 3. Create a new user with username **_devops_**
-* Goto _admin area_ (small settings icon on the left side corner)
-* Click on _new user_
+* Goto **admin area** (small settings icon on the left side corner)
+* Click on **new user**
 * enter below details
-  * name : _devops_
-  *  username: _devops_
-  *  email: _your email id_
+  * name : devops
+  *  username: devops
+  *  email: your email id
 * Click on _Create user_
 
 4. Set password for user **_devops_**
