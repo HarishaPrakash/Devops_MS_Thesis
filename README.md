@@ -187,7 +187,7 @@ Post conditions:
 
 6. Click on **Create project**
 
-## Get the Gitlab PROJECT ID
+### Get the Gitlab PROJECT ID
 
 1. Click on the project **welcomewebapplication**
 
