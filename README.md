@@ -449,6 +449,7 @@ Post conditions:
 
 **NOTE: Integration server should be up and running to execute these steps**
 
+### Create Stage VM 
 1. Get to `cd <root_folder>/devops/pipeline/stage-vm-welcome`
 
 2. Run command
@@ -515,6 +516,7 @@ For Example: `85y84QhgbyaqWo38b7qg`
 
 **NOTE: Integration server should be up and running to execute these steps**
 
+### Creat Production VM
 1. Go to `cd <root_folder>/devops/pipeline/prod-vm-welcome`
 
 2. Run command
