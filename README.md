@@ -83,3 +83,45 @@ _Test Steps:_
 Post conditions:
 - Grafana is accessible at the indicated URL
 
+## Set up GITLAB
+
+1. Create a password for the **_root_** user and remember this password for future use. (referred as **_$ROOT_PASSWORD_** later)
+2. Login into Gitlab with **_root_** user and **_$ROOT_PASSWORD_**
+
+#### **** Test Case ****
+
+Initial conditions: you have successfully entered a password for the **_root_** user
+
+Test Steps:
+1. Go to http://192.168.56.15/gitlab in a web broswer
+2. Log in using the user name **_root_** and **_$ROOT_PASSWORD_**
+
+Post conditions:
+- You have successfully logged in as administrator
+
+#### **** Test Case End ****
+
+3. Create a new user with username **_devops_**
+* Goto _admin area_ (small settings icon on the left side corner)
+* Click on _new user_
+* enter below details
+  * name : _devops_
+  *  username: _devops_
+  *  email: _your email id_
+* Click on _Create user_
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
