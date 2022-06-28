@@ -53,7 +53,7 @@ Post conditions:
 ### Deploy the Product
 1. Run command\
 `vagrant ssh`
-2. Go to folder (inside the **dev-vm-welcome** VM)\
+2. Go to folder (inside the **_dev-vm-welcome_** VM)\
 `cd /vagrant_scripts/`
 3. Run commamnd\
 `sudo ./deploy-snapshot.sh`
@@ -65,10 +65,10 @@ _Test Steps:_
 1. Open URL http://192.168.56.14:8080/welcome/welcome in a web browser
 
 Post conditions:
-- Should be able to see the web page with text as "Welcome Stranger!"
+- Should be able to see the web page with text as **Welcome Stranger!**
 #### *** Test Case End ***
 
-6. Exit from **dev-vm-welcome** virtual machine usig command `exit`
+6. Exit from **_dev-vm-welcome_** virtual machine usig command `exit`
 
 ## Continuous Integration Server
 
@@ -136,40 +136,40 @@ Post conditions:
 * Goto **admin area** (small settings icon on the left side corner)
 * Click on **new user**
 * enter below details
-  * name : devops
-  * username: devops
-  * email: your email id
+  * name : **devops**
+  * username: **devops**
+  * email: **your email id**
 
-* Click on _Create user_
+* Click on **Create user**
 
-#### Set a password for user **devops**
-1. Set password for user **devops**
-2. Edit the user **devops**
+#### Set a password for user **_devops_**
+1. Set password for user **_devops_**
+2. Edit the user **_devops_**
 3. Enter the password (referred as **_$PROJECT_TEMP_PASSWORD_** in future)
 4. Enter the password confirmation
 5. Click on **Save changes**
-6. Logout from **root** user
+6. Logout from **_root_** user
 
-#### Login to Gitlab with user **devops**
-1. Login with user **devops**
-2. Username: **devops**
-3. Password: **$PROJECT_TEMP_PASSWORD**
+#### Login to Gitlab with user **_devops_**
+1. Login with user **_devops_**
+2. Username: **_devops_**
+3. Password: **_$PROJECT_TEMP_PASSWORD_**
 4. Click **Login**
 5. First time it will ask to reset password
-* Current password: **$PROJECT_TEMP_PASSWORD**
-* New password (referred as **$PROJECT_PASSWORD** in future)
+* Current password: **_$PROJECT_TEMP_PASSWORD_**
+* New password (referred as **_$PROJECT_PASSWORD_** in future)
 * Confirm new password
 
 ### **** Test Case ****
 
-Initial conditions: you have successfully changed a password for the **devops** user
+Initial conditions: you have successfully changed a password for the **_devops_** user
 
 Test Steps:
 1. Go to http://192.168.56.15/gitlab
-2. Login using the user name **devops** and password(**$PROJECT_PASSWORD**) the one entered in the previous step.
+2. Login using the user name **_devops_** and password(**_$PROJECT_PASSWORD_**) the one entered in the previous step.
 
 Post conditions:
-- You have successfully logged in as user **devops**
+- You have successfully logged in as user **_devops_**
 
 ### **** Test Case End ****
 
@@ -205,7 +205,7 @@ Post conditions:
 
 4. Click on **Access Tokens** on the left side bar
 
-5. Enter name `devops`
+5. Enter name **devops**
 
 6. Click the Check box **api** under the sources
 
@@ -219,7 +219,7 @@ Post conditions:
 
 1. Open URL http://192.168.56.15:9000/
 
-2. Set the password for user **admin** (referred as **$SONAR_PASSWORD** in future)
+2. Set the password for user **_admin_** (referred as **_$SONAR_PASSWORD_** in future)
 
 ## Create API Token in SonarQube
 
@@ -244,16 +244,16 @@ Post conditions:
 1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
 
 2. Enter the details\
-username: `admin`\
+username: `admin**`\
 password: `admin`
 
-3. set a new password for grafana user **admin** (referred as **$GRAFANA_PASSWORD** in future)
+3. set a new password for grafana user **_admin_** (referred as **_$GRAFANA_PASSWORD_** in future)
 
 ### Create Datasource in Grafana
 
 1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
 
-2. Login with user **admin** and password (**$GRAFANA_PASSWORD**)
+2. Login with user **_admin_** and password (**_$GRAFANA_PASSWORD_**)
 
 3. Click on **Configuration** icon on the left hand side bar (**Settings** symbol)
 
