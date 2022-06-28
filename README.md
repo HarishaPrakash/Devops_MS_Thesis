@@ -51,11 +51,11 @@ Post conditions:
 #### *** Test Case End ***
 
 ### Deploy the Product
-1. run command\
+1. Run command\
 `vagrant ssh`
-2. go to folder (inside the **dev-vm-welcome** VM)\
+2. Go to folder (inside the **dev-vm-welcome** VM)\
 `cd /vagrant_scripts/`
-3. run commamnd\
+3. Run commamnd\
 `sudo ./deploy-snapshot.sh`
 
 #### *** Test Case ***
