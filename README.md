@@ -14,7 +14,9 @@ Dedicated repository for Master thesis
 * Vagrant (v 2.2.5, or higher)
 * Ansible (v 2.7.5, or higher)
 
-#### Download the folder _Devops_ from this repository
+#### Download the replication package
+* Download the folder **Devops** from this repository
+* Unzip the file
 
 
 ## Development Environment
