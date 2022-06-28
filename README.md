@@ -16,7 +16,7 @@ Software
 
 ## Creating Environments
 
-## Devolpment Environment
+## Development Environment
 ### Generate WAR file
 1. Go to\
 `cd ~/<root_folder>/Devops/pipeline/dev-vm-welcome`
@@ -29,10 +29,10 @@ Initial conditions: "mvn clean install" command should have completed.\
   _Test Steps:_
   1. Go to\
   `cd ~/<root_folder>/devops/pipeline/dev-vm-welcome/target`
-  2. check if file "welcome-webapplication-0.0.1-SNAPSHOT.war" exists
+  2. Check if file "welcome-webapplication-0.0.1-SNAPSHOT.war" exists
 #### *** Test End *** 
 
-### Create Devolpment VM
+### Create Development VM
 1. Go to\
 `cd ~/<root_folder>/devops/pipeline/dev-vm-welcome`
 2. Run command\
