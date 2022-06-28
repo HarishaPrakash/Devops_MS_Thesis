@@ -146,6 +146,42 @@ Post conditions:
 * Enter Project Name: welcomeWebApplication
 * Click on "Create project"
 
+## Setup GRAFANA
+
+### Reset Grafana Password
+1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
+2. Enter the details\
+username: `admin`\
+password: `admin`
+3. set a new password for grafana user **admin** (referred as **$GRAFANA_PASSWORD** in future)
+
+### Create Datasource in Grafana
+1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
+2. Login with user **admin** and password (**$GRAFANA_PASSWORD**)
+3. Click on **Configuration** icon on the left hand side bar (**Settings** symbol)
+4. Select the **Data Sources** tab
+5. Click on **Add data source**
+6. Search for **MySQL** and select it
+7. Enter the below details\
+```
+Host: localhost:3306
+Database: devops
+User: devops
+Password: devops@2022
+```
+9. Click on **Save and Test**
+10. It should display message as ** Database Connection OK**
+11. Click on **Back**
+
+### Import dashboard into Grafana
+1. Click on **Create** icon on the left hand side bar (**+** symbol)
+2. Select the **Import** option
+3. Click on **Upload JSON file**
+4. Select the below file\
+`cd <root_folder>/devops/pipeline/integration-server/scripts/grafana_dashboard.json`
+5. Click on **Import**
+
+
 ## Configure Docker in Integration server
 
 1. Get to `cd <root_folder>/devops/pipeline/integration-server`
@@ -413,15 +449,6 @@ For Example: `85y84QhgbyaqWo38b7qg`
 `exit`\
 `vagrant reload`
 
-## Import dashboard into Grafana
-1. Open URL http://192.168.56.15/gitlab/-/grafana in web browser
-1. Login with user **admin** and password (**$GRAFANA_PASSWORD**)
-2. Click on **Create** icon on the left hand side bar (**+** symbol)
-3. Select the **Import** option
-4. Click on **Upload JSON file**
-5. Select the below file\
-`cd <root_folder>/devops/pipeline/integration-server/scripts/grafana_dashboard.json`
-6. Click on **Import**
 
 ## Create Token in Gitlab
 1. Login to gitlab http://192.168.56.15/gitlab with username **_devops_** and **_$PROJECT_PASSWORD_**
