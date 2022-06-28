@@ -29,7 +29,7 @@ Initial conditions: "mvn clean install" command should have completed.\
   _Test Steps:_
   1. Go to\
   `cd ~/<root_folder>/devops/pipeline/dev-vm-welcome/target`
-  2. check if file "welcome-webapplication-0.0.1-SNAPSHOT.war" exists in target folder
+  2. check if file "welcome-webapplication-0.0.1-SNAPSHOT.war" exists
 #### *** Test End *** 
 
 ### Create Devolpment VM
