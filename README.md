@@ -109,9 +109,17 @@ Post conditions:
   *  username: _devops_
   *  email: _your email id_
 * Click on _Create user_
-  
 
+4. Set password for user **_devops_**
+* edit the user _devops_
+* enter the password (referred as **_$PROJECT_TEMP_PASSWORD_** in future)
+* enter the password confirmation
+* click on _Save changes_
 
+5. Logout from **_root_** user
+6. Login with user **_devops_**
+* username: devops
+* password: $PROJECT_TEMP_PASSWORD
 
 
 
