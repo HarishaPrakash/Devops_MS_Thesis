@@ -304,7 +304,7 @@ Password: devops@2022
 4. Open file **get_metrics.py** :\
 `sudo nano get_metrics`
 
-5. Edit the below lines in the file with sonarqube token, gitlab token and gitlab project id respectively\
+5. Edit the below lines in the file with sonarqube token, gitlab token and gitlab project id respectively
 ```
 sonarqube_token = 'paste the sonarqube token here'
 gitlab_token = 'paste the gitlab token here'
