@@ -5,16 +5,17 @@ Dedicated repository for Master thesis
 # Steps to replicate the setup
 
 ## Prerequisites
-Hardware
+#### Hardware
 * Computer with at least 8 GB memory (recommended 16 GB, ideally 32 GB)
 
-Software
+#### Software
 * Operating System - Ubuntu/Mac
 * VirtualBox(v 6.0, or higher)
 * Vagrant (v 2.2.5, or higher)
 * Ansible (v 2.7.5, or higher)
 
-## Creating Environments
+#### Download the folder _Devops_ from this repository
+
 
 ## Development Environment
 ### Generate WAR file
