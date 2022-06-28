@@ -64,7 +64,7 @@ Post conditions:
 3. reload virtual machine with command `vagrant reload` (***Important Step***)
 
 #### _Test:_ 
-Test case: Check if the Gitlab is accessible in below URL\
+Test case: Check if the **Gitlab** is accessible in below URL\
 
 _Test Steps:_
 1. open url http://192.168.56.15/gitlab/ in a web browser
@@ -75,15 +75,26 @@ Post conditions:
 
 
 #### _Test:_ 
-Test case: Check if the Grafana is accessible in below URL\
+Test case: Check if the **Grafana** is accessible in below URL\
 
 _Test Steps:_
-1. open url http://192.168.56.15/gitlab/-/grafana in a web browser
+1. open URL http://192.168.56.15/gitlab/-/grafana in a web browser
 
 Post conditions:
 - Grafana is accessible at the indicated URL
 
+#### _Test:_ 
+Test case: Check if the **Sonarqube** is accessible in below URL\
+
+_Test Steps:_
+1. open URL http://192.168.56.15:9000/ in a web browser
+
+Post conditions:
+- Sonarqube is accessible at the indicated URL
+
 ## Set up GITLAB
+
+### Setup root password and create a non-root user
 
 1. Create a password for the **_root_** user and remember this password for future use. (referred as **_$ROOT_PASSWORD_** later)
 2. Login into Gitlab with **_root_** user and **_$ROOT_PASSWORD_**
@@ -139,29 +150,96 @@ Post conditions:
 
 ### **** Test Case End ****
 
-8. Again Login to Gitlab with user **_devops_** with latest password (**_$PROJECT_PASSWORD_**)
-9. After login, Create a new project(repository) with name _welcomeWebApplication_
-* Click on "Create a project"
-* Click on "Create blank project"
-* Enter Project Name: welcomeWebApplication
-* Click on "Create project"
+### Create repository in Gitlab
+
+1. Login to Gitlab with user **_devops_** with latest password (**_$PROJECT_PASSWORD_**)
+
+2. After login, Create a new project(repository) with name _welcomeWebApplication_
+
+3. Click on **Create a project**
+
+4. Click on **Create blank project**
+
+5. Enter Project Name: **welcomeWebApplication**
+
+6. Click on **Create project**
+
+## Get the Gitlab PROJECT ID
+
+1. Click on the project **welcomewebapplication**
+
+2. Get the **Project ID** (Note: It will be displayed below the project name)
+
+3. Save the Project ID somewhere (we need this Project ID for future use)
+
+### Create API Token in Gitlab
+
+1. Login to gitlab http://192.168.56.15/gitlab with username **_devops_** and **_$PROJECT_PASSWORD_**
+
+2. Click on the profile picture
+
+3. Click on **Edit profile**
+
+4. Click on **Access Tokens** on the left side bar
+
+5. Enter name `devops`
+
+6. Click the Check box **api** under the sources
+
+7. Click on **Create personal access token**
+
+8. Copy the generated API token and save it somewhere (we need this Token for future use)
+
+## Set up SONARQUBE
+
+### Set the password for user admin
+
+1. Open URL http://192.168.56.15:9000/
+
+2. Set the password for user **admin** (referred as **$SONAR_PASSWORD** in future)
+
+## Create API Token in SonarQube
+
+1. Login to Sonarqube http://192.168.56.15:9000/ with username **_admin_** and **_$SONAR_PASSWORD_** 
+
+2. Click on the profile
+
+3. Click on **My account**
+
+4. Select the tab **Security** 
+
+5. Enter a token name: **devops**
+
+6. Click on **Generate**
+
+7. Copy the generated token and save it somewhere (we need this Token for future use)
 
 ## Setup GRAFANA
 
 ### Reset Grafana Password
+
 1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
+
 2. Enter the details\
 username: `admin`\
 password: `admin`
+
 3. set a new password for grafana user **admin** (referred as **$GRAFANA_PASSWORD** in future)
 
 ### Create Datasource in Grafana
+
 1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
+
 2. Login with user **admin** and password (**$GRAFANA_PASSWORD**)
+
 3. Click on **Configuration** icon on the left hand side bar (**Settings** symbol)
+
 4. Select the **Data Sources** tab
+
 5. Click on **Add data source**
+
 6. Search for **MySQL** and select it
+
 7. Enter the below details\
 ```
 Host: localhost:3306
@@ -169,18 +247,44 @@ Database: devops
 User: devops
 Password: devops@2022
 ```
+
 9. Click on **Save and Test**
+
 10. It should display message as ** Database Connection OK**
+
 11. Click on **Back**
 
 ### Import dashboard into Grafana
+
 1. Click on **Create** icon on the left hand side bar (**+** symbol)
+
 2. Select the **Import** option
+
 3. Click on **Upload JSON file**
+
 4. Select the below file\
 `cd <root_folder>/devops/pipeline/integration-server/scripts/grafana_dashboard.json`
+
 5. Click on **Import**
 
+6. Grafana set up completed
+
+## Paste the Gitlab and Sonarqube API token and Gitlab Project ID in get_metrics.py file 
+
+1. Go to `cd <root_folder>/devops/pipeline/integration-server`
+
+2. Run command\
+`vagrant ssh`
+
+3. Go to `cd /vagrant_scripts`
+
+4. Open file **get_metrics.py** :\
+`sudo nano get_metrics`
+
+5. Edit the below lines in the file with sonarqube token, gitlab token and gitlab project id respectively\
+sonarqube_token = 'paste the sonarqube token here'\
+gitlab_token = 'paste the gitlab token here'\
+gitlab_project_id = 'paste the Project ID here'
 
 ## Configure Docker in Integration server
 
@@ -450,44 +554,7 @@ For Example: `85y84QhgbyaqWo38b7qg`
 `vagrant reload`
 
 
-## Create Token in Gitlab
-1. Login to gitlab http://192.168.56.15/gitlab with username **_devops_** and **_$PROJECT_PASSWORD_**
-2. Click on the profile picture
-3. Click on **Edit profile**
-4. Click on **Access Tokens** on the left side bar
-5. Enter name `devops`
-6. Click the Check box **api** under the sources
-7. Click on **Create personal access token**
-8. Copy the generated token and save it somewhere
 
-## Create Token in SonarQube
-1. Login to Sonarqube http://192.168.56.15:9000/ with username **_admin_** and **_$SONAR_PASSWORD_** 
-2. Click on the profile
-3. Click on **My account**
-4. Select the tab **Security** 
-5. Enter a token name: **devops**
-6. Click on **Generate**
-7. Copy the generated token and save it somewhere
-
-## Get the Gitlab PROJECT ID
-1. Login to gitlab http://192.168.56.15/gitlab with username **_devops_** and **_$PROJECT_PASSWORD_**
-2. Click on the project **welcomewebapplication**
-3. Get the **Project ID** (Note: It will be displayed below the project name)
-
-
-
-
-## Paste the Gitlab and Sonarqube tokens and Gitlab Project ID in file
-
-1. Go to `cd <root_folder>/devops/pipeline/integration-server`
-2. Run command\
-`vagrant ssh`
-3. Go to `cd /vagrant_scripts`
-4. Open file **get_metrics.py** : `sudo nano get_metrics`
-5. Edit the below lines in the file with sonarqube token, gitlab token and gitlab project id respectively\
-sonarqube_token = 'paste the sonarqube token here'\
-gitlab_token = 'paste the gitlab token here'\
-gitlab_project_id = 'paste the Project ID here'
   
 ## Create .gitlab-ci.yml file
 
