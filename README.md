@@ -273,7 +273,7 @@ Password: devops@2022
 
 9. Click on **Save and Test**
 
-10. It should display message as ** Database Connection OK**
+10. It should display message as **Database Connection OK**
 
 11. Click on **Back**
 
