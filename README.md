@@ -73,35 +73,39 @@ Post conditions:
 ## Continuous Integration Server
 
 ### Create VM for Integration server
-1. Go to `cd <root_folder>/devops/pipeline/integration-server`
-2. Run command `vagrant up`
-3. Reload virtual machine with command `vagrant reload` (***Important Step***)
+1. Go to\
+`cd <root_folder>/devops/pipeline/integration-server`
+2. Run command\
+`vagrant up`
+3. Reload virtual machine with command (***Important Step***)\
+`vagrant reload` 
 
-#### _Test:_ 
+#### *** Test Case ***
 Test case: Check if the **Gitlab** is accessible in below URL\
 
 _Test Steps:_
-1. open url http://192.168.56.15/gitlab/ in a web browser
+1. Open url http://192.168.56.15/gitlab/ in a web browser
 
 Post conditions:
 - GitLab is accessible at the indicated URL
 - It asks to enter password for the root credentials
+#### *** Test Case End ***
 
-
-#### _Test:_ 
+#### *** Test Case ***
 Test case: Check if the **Grafana** is accessible in below URL\
 
 _Test Steps:_
-1. open URL http://192.168.56.15/gitlab/-/grafana in a web browser
+1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
 
 Post conditions:
 - Grafana is accessible at the indicated URL
+#### *** Test Case End ***
 
 #### _Test:_ 
 Test case: Check if the **Sonarqube** is accessible in below URL\
 
 _Test Steps:_
-1. open URL http://192.168.56.15:9000/ in a web browser
+1. Open URL http://192.168.56.15:9000/ in a web browser
 
 Post conditions:
 - Sonarqube is accessible at the indicated URL
