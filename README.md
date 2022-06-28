@@ -62,20 +62,20 @@ Post conditions:
 Test case: Check if Product is accessible\
 Initial conditions: script "deploy-snapshot.sh" should have run and completed in previous step\
 _Test Steps:_
-1. open url http://192.168.56.14:8080/welcome/welcome in a web browser
+1. Open URL http://192.168.56.14:8080/welcome/welcome in a web browser
 
 Post conditions:
 - Should be able to see the web page with text as "Welcome Stranger!"
 #### *** Test Case End ***
 
-6. exit from **dev-vm-welcome** virtual machine usig command `exit`
+6. Exit from **dev-vm-welcome** virtual machine usig command `exit`
 
 ## Continuous Integration Server
 
 ### Create VM for Integration server
-1. go to `cd <root_folder>/devops/pipeline/integration-server`
-2. run command `vagrant up`
-3. reload virtual machine with command `vagrant reload` (***Important Step***)
+1. Go to `cd <root_folder>/devops/pipeline/integration-server`
+2. Run command `vagrant up`
+3. Reload virtual machine with command `vagrant reload` (***Important Step***)
 
 #### _Test:_ 
 Test case: Check if the **Gitlab** is accessible in below URL\
