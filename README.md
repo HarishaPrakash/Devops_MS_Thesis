@@ -144,32 +144,32 @@ Post conditions:
 
 #### Set a password for user **devops**
 1. Set password for user **devops**
-2. edit the user **devops**
-3. enter the password (referred as **_$PROJECT_TEMP_PASSWORD_** in future)
-4. enter the password confirmation
-5. click on _Save changes_
-6. Logout from **_root_** user
+2. Edit the user **devops**
+3. Enter the password (referred as **_$PROJECT_TEMP_PASSWORD_** in future)
+4. Enter the password confirmation
+5. Click on **Save changes**
+6. Logout from **root** user
 
 #### Login to Gitlab with user **devops**
-1. Login with user **_devops_**
-2. username: **devops**
-3. password: **$PROJECT_TEMP_PASSWORD**
+1. Login with user **devops**
+2. Username: **devops**
+3. Password: **$PROJECT_TEMP_PASSWORD**
 4. Click **Login**
 5. First time it will ask to reset password
-* Current password: _$PROJECT_TEMP_PASSWORD_
-* New password (referred as _$PROJECT_PASSWORD_ in future)
+* Current password: **$PROJECT_TEMP_PASSWORD**
+* New password (referred as **$PROJECT_PASSWORD** in future)
 * Confirm new password
 
 ### **** Test Case ****
 
-Initial conditions: you have successfully changed a password for the **_devops_** user
+Initial conditions: you have successfully changed a password for the **devops** user
 
 Test Steps:
 1. Go to http://192.168.56.15/gitlab
-2. Log in using the user name **_devops_** and password(**_$PROJECT_PASSWORD_**) the one entered in the previous step.
+2. Login using the user name **devops** and password(**$PROJECT_PASSWORD**) the one entered in the previous step.
 
 Post conditions:
-- You have successfully logged in as user **_devops_**
+- You have successfully logged in as user **devops**
 
 ### **** Test Case End ****
 
