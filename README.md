@@ -244,7 +244,7 @@ Post conditions:
 1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
 
 2. Enter the details\
-username: `admin**`\
+username: `admin`\
 password: `admin`
 
 3. set a new password for grafana user **_admin_** (referred as **_$GRAFANA_PASSWORD_** in future)
