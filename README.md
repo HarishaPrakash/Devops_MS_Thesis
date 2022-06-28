@@ -18,20 +18,27 @@ Software
 
 ## Devolpment Environment
 ### Generate WAR file
-1. go to directory: `cd ~/<root_folder>/Devops/pipeline/dev-vm-welcome`
-2. run command `mvn clean install`
-#### _Test:_ 
+1. Go to\
+`cd ~/<root_folder>/Devops/pipeline/dev-vm-welcome`
+3. Run command\
+`mvn clean install`
+
+#### *** Test Case *** 
 Test case: Check if the war file generated in Target folder.\
 Initial conditions: "mvn clean install" command should have completed.\
   _Test Steps:_
-  1. `cd ~/<root_folder>/devops/pipeline/dev-vm-welcome/target`
+  1. Go to\
+  `cd ~/<root_folder>/devops/pipeline/dev-vm-welcome/target`
   2. check if file "welcome-webapplication-0.0.1-SNAPSHOT.war" exists in target folder
+#### *** Test End *** 
 
-### Test Product in Dev Environment
-1. go to the directory `cd ~/<root_folder>/devops/pipeline/dev-vm-welcome`
-2. run command `vagrant up`
+### Create Devolpment VM
+1. Go to\
+`cd ~/<root_folder>/devops/pipeline/dev-vm-welcome`
+2. Run command\
+`vagrant up`
 
-#### _Test:_ 
+#### *** Test Case ***
 Test case: Check if Dev-vm-welcome is create\
 Initial conditions: "vagrant up" command should have completed\
 _Test Steps:_
@@ -41,11 +48,17 @@ _Test Steps:_
 Post conditions:
 - Should be able to connect "dev-vm-welcome" virtual machine
 
-3. run command `vagrant ssh`
-4. go to folder (inside the "dev-vm-welcome" VM) `cd /vagrant_scripts/`
-5. run commamnd `sudo ./deploy-snapshot.sh`
+#### *** Test Case End ***
 
-#### _Test:_ 
+### Deploy the Product
+1. run command\
+`vagrant ssh`
+2. go to folder (inside the **dev-vm-welcome** VM)\
+`cd /vagrant_scripts/`
+3. run commamnd\
+`sudo ./deploy-snapshot.sh`
+
+#### *** Test Case ***
 Test case: Check if Product is accessible\
 Initial conditions: script "deploy-snapshot.sh" should have run and completed in previous step\
 _Test Steps:_
@@ -53,8 +66,9 @@ _Test Steps:_
 
 Post conditions:
 - Should be able to see the web page with text as "Welcome Stranger!"
+#### *** Test Case End ***
 
-6- exit from _dev-vm-welcome_ virtual machine usig command `exit`
+6. exit from **dev-vm-welcome** virtual machine usig command `exit`
 
 ## Continuous Integration Server
 
