@@ -175,5 +175,18 @@ For Example: `85y84QhgbyaqWo38b7qg`
 `exit`\
 `vagrant reload`
 
+## Create Token in Gitlab
+
+1. Login to gitlab http://192.168.56.15/gitlab with username **_devops_** and **_$PROJECT_PASSWORD_**
+2. Click on the profile picture
+3. Click **Edit profile**
+4. Click on **Access Tokens** on the left side bar
+5. Enter name `devops`
+6. Check box **api** under the sources
+7. Click on **Create personal access token**
+8. Copy the generated token and save it somewhere
+
+## Create Token in SonarQube
+
 
 
