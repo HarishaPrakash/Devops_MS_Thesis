@@ -332,14 +332,15 @@ Hello from Docker!
 `docker rm hello-world`\
 `docker rmi hello-world`
 
-## Download and Install Runner in Integration server
+## Setup Runner in Integration server
+### Download and Install Runner in Integration server
 1. Download Gitlab runner\
 `curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash`
 
 2. Install Gitlab runner\
 `sudo apt-get install gitlab-runner`
 
-## Register 1st runner in Integration server
+### Register 1st runner in Integration server
 1. Execute the following command\
 `sudo gitlab-runner register`
 
@@ -371,7 +372,7 @@ For Example: `85y84QhgbyaqWo38b7qg`
 
 11. Finally, in GitLab change the configuration of the runner to accept jobs without TAGS
 
-## Register 2nd runner in Integration server
+### Register 2nd runner in Integration server
 Note: This shell runner for executing the python script to extract the metrics details
 
 1. Run the below command
