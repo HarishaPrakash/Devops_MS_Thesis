@@ -121,12 +121,114 @@ Post conditions:
 * username: devops
 * password: $PROJECT_TEMP_PASSWORD
 
+7. First time it will ask to reset password
+* Current password: _$PROJECT_TEMP_PASSWORD_
+* New password (referred as _$PROJECT_PASSWORD_ in future)
+* Confirm new password
 
+### **** Test Case ****
 
+Initial conditions: you have successfully changed a password for the **_devops_** user
 
+Test Steps:
+1. Go to http://192.168.56.15/gitlab
+2. Log in using the user name **_devops_** and password(**_$PROJECT_PASSWORD_**) the one entered in the previous step.
 
+Post conditions:
+- You have successfully logged in as user **_devops_**
 
+### **** Test Case End ****
 
+8. Again Login to Gitlab with user **_devops_** with latest password (**_$PROJECT_PASSWORD_**)
+9. After login, Create a new project(repository) with name _welcomeWebApplication_
+* Click on "Create a project"
+* Click on "Create blank project"
+* Enter Project Name: welcomeWebApplication
+* Click on "Create project"
+
+## Configure Docker in Integration server
+
+1. Get to `cd <root_folder>/devops/pipeline/integration-server`
+2. Run command `vagrant ssh`
+3. Add a user to the docker group to be able to access the docker CLI\
+`sudo usermod -aG docker vagrant`
+4. Validate the installation and access by running a hello world container\
+`docker run --name hello-world hello-world`
+5. The expected output should be.\
+Hello from Docker!
+6. Remove the docker container and image\
+`docker rm hello-world`\
+`docker rmi hello-world`
+
+## Download and Install Runner in Integration server
+1. Download Gitlab runner\
+`curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash`
+
+2. Install Gitlab runner\
+`sudo apt-get install gitlab-runner`
+
+## Register 1st runner in Integration server
+1. Execute the following command\
+`sudo gitlab-runner register`
+
+2. Enter the requested information as follows
+
+3. For GitLab instance URL enter:\
+`http://192.168.56.15/gitlab/`
+
+4. For the gitlab-ci token enter the generated token:\(**Note: Get the token from Gitlab**)
+For Example: 85y84QhgbyaqWo38b7qg
+
+5. For a description for the runner enter:\
+[integration-server] `docker`
+
+6. For the gitlab-ci tags for this runner enter:\
+`integration`
+
+7. Enter optional maintenance note for the runner:\
+`integrationRunner`
+
+8. For the executor enter:\
+`docker`
+
+9. For the Docker image (eg. ruby:2.1) enter:\
+`alpine:latest`
+
+10. Restart the runner:\
+`sudo gitlab-runner restart`
+
+11. Finally, in GitLab change the configuration of the runner to accept jobs without TAGS
+
+## Register 2nd runner in Integration server
+Note: This shell runner for executing the python script to extract the metrics details
+
+1. Run the below command
+`sudo gitlab-runner register`
+
+2.Then enter the information related to the GitLab instance.
+
+3. For GitLab instance URL enter:\
+`http://192.168.56.15/gitlab/`
+
+4. For the gitlab-ci token enter the generated token:\
+For Example: `85y84QhgbyaqWo38b7qg`
+
+5. For a description for the runner enter:\
+[stage-vm-welcome] `shell`
+
+6. For the gitlab-ci tags for this runner enter:\
+`integration-shell`
+
+7. Enter optional maintenance note for the runner:\
+`shellRunner`
+
+8. For the executor enter:\
+`shell`
+
+9. Restart the runner:\
+`sudo gitlab-runner restart`
+
+10. Finally, in GitLab change the configuration of the runner to accept jobs without TAGS
 
 
 
