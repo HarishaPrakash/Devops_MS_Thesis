@@ -584,7 +584,23 @@ For Example: `85y84QhgbyaqWo38b7qg`
 `exit`\
 `vagrant reload`
 
+## Enter SonarQube details in Gitlab
+1. Login to gitlab http://192.168.56.15/gitlab with username **_devops_** and **_$PROJECT_PASSWORD_**
+2. Open the "welcomeWebApplication" repository
+3. Click on **Settings**
+4. Select **CI/CD**
+5. Click on **Variables** section
+6. Add below 3 variables one after the other
+```
+Key : SONAR_URL
+Value: http://192.168.56.15:9000
 
+Key: SONAR_USER
+Value: admin
+
+Key: SONAR_PASSWORD
+Value: $SONAR_PASSWORD (Insert the actual password)
+```
 
   
 ## Create .gitlab-ci.yml file
