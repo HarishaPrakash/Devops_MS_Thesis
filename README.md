@@ -62,3 +62,24 @@ Post conditions:
 1. go to `cd <root_folder>/devops/pipeline/integration-server`
 2. run command `vagrant up`
 3. reload virtual machine with command `vagrant reload` (***Important Step***)
+
+#### _Test:_ 
+Test case: Check if the Gitlab is accessible in below URL\
+
+_Test Steps:_
+1. open url http://192.168.56.15/gitlab/ in a web browser
+
+Post conditions:
+- GitLab is accessible at the indicated URL
+- It asks to enter password for the root credentials
+
+
+#### _Test:_ 
+Test case: Check if the Grafana is accessible in below URL\
+
+_Test Steps:_
+1. open url http://192.168.56.15/gitlab/-/grafana in a web browser
+
+Post conditions:
+- Grafana is accessible at the indicated URL
+
