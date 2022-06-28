@@ -142,18 +142,20 @@ Post conditions:
 
 * Click on _Create user_
 
-4. Set password for user **_devops_**
-* edit the user _devops_
-* enter the password (referred as **_$PROJECT_TEMP_PASSWORD_** in future)
-* enter the password confirmation
-* click on _Save changes_
+#### Set a password for user **devops**
+1. Set password for user **devops**
+2. edit the user **devops**
+3. enter the password (referred as **_$PROJECT_TEMP_PASSWORD_** in future)
+4. enter the password confirmation
+5. click on _Save changes_
+6. Logout from **_root_** user
 
-5. Logout from **_root_** user
-6. Login with user **_devops_**
-* username: devops
-* password: $PROJECT_TEMP_PASSWORD
-
-7. First time it will ask to reset password
+####Login to Gitlab with user **devops**
+1. Login with user **_devops_**
+2. username: **devops**
+3. password: **$PROJECT_TEMP_PASSWORD**
+4. Click **Login**
+5. First time it will ask to reset password
 * Current password: _$PROJECT_TEMP_PASSWORD_
 * New password (referred as _$PROJECT_PASSWORD_ in future)
 * Confirm new password
