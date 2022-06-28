@@ -53,7 +53,7 @@ Post conditions:
 
 #### *** Test Case End ***
 
-### Deploy the Product
+### Deploy the Product Development VM
 1. Run command\
 `vagrant ssh`
 2. Go to folder (inside the **_dev-vm-welcome_** VM)\
