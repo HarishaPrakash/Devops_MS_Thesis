@@ -60,7 +60,7 @@ Post conditions:
 2. Go to folder (inside the **_dev-vm-welcome_** VM)\
 `cd /vagrant_scripts/`
 3. Run commamnd\
-`sudo ./deploy-snapshot.sh`
+`sudo sh deploy-snapshot.sh`
 
 #### *** Test Case ***
 Test case: Check if Product is accessible\
@@ -88,7 +88,7 @@ Post conditions:
 Test case: Check if the **Gitlab** is accessible in below URL\
 
 _Test Steps:_
-1. Open url http://192.168.56.15/gitlab/ in a web browser
+1. Open URL http://192.168.56.15/gitlab/ in a web browser
 
 Post conditions:
 - GitLab is accessible at the indicated URL
@@ -163,6 +163,7 @@ Post conditions:
 * Current password: **_$PROJECT_TEMP_PASSWORD_**
 * New password (referred as **_$PROJECT_PASSWORD_** in future)
 * Confirm new password
+* Click on **Set new password**
 
 ### **** Test Case ****
 
@@ -211,7 +212,7 @@ Post conditions:
 
 5. Enter name **devops**
 
-6. Click the Check box **api** under the sources
+6. Click the Check box **api** under the Scopes section
 
 7. Click on **Create personal access token**
 
@@ -222,8 +223,13 @@ Post conditions:
 ### Set the password for user admin
 
 1. Open URL http://192.168.56.15:9000/
+2. Enter the user name **admin**
+3. Enter the password **admin** (This is default password for the first time login)
+4. Update your password window will open
+5. Enter your old password
+6. Enter a new password user **_admin_** (referred as **_$SONAR_PASSWORD_** in future)
+7. Click on **Update**
 
-2. Set the password for user **_admin_** (referred as **_$SONAR_PASSWORD_** in future)
 
 ### Create API Token in SonarQube
 
@@ -235,7 +241,7 @@ Post conditions:
 
 4. Select the tab **Security** 
 
-5. Enter a token name: **devops**
+5. Enter a token name: **devops** in the Generate Tokens field
 
 6. Click on **Generate**
 
@@ -296,6 +302,8 @@ Password: devops@2022
 
 6. Grafana set up completed
 
+7. **Note: We have only set up Grafana now. No data will be visible at this stage. Only after running the Pipeline, data can be seen on the dashboard**
+
 ## Paste the Gitlab and Sonarqube API token and Gitlab Project ID in get_metrics.py file 
 
 1. Go to `cd <root_folder>/devops/pipeline/integration-server`
@@ -308,12 +316,16 @@ Password: devops@2022
 4. Open file **get_metrics.py** :\
 `sudo nano get_metrics`
 
+**Note: If file is not visible at this location. Then you have to reload the integration-server VM**
+
 5. Edit the below lines in the file with sonarqube token, gitlab token and gitlab project id respectively
 ```
 sonarqube_token = 'paste the sonarqube token here'
 gitlab_token = 'paste the gitlab token here'
 gitlab_project_id = 'paste the Project ID here'
 ```
+6. Exit using command `exit`
+
 ## Configure Docker in Integration server
 
 1. Get to `cd <root_folder>/devops/pipeline/integration-server`
@@ -341,6 +353,15 @@ Hello from Docker!
 2. Install Gitlab runner\
 `sudo apt-get install gitlab-runner`
 
+### Get the CI Token from runner in Gitlab
+
+1. Login to Gitlab with user **_devops_**
+2. Open the repository **welcomeWebApplication**
+3. Go to **Settings** (Left hand side bar)
+4. Select the option **CI/CD**
+5. Click on **Runners**
+6. Copy the **registration token**
+
 ### Register 1st runner in Integration server
 1. Execute the following command\
 `sudo gitlab-runner register`
@@ -350,7 +371,7 @@ Hello from Docker!
 3. For GitLab instance URL enter:\
 `http://192.168.56.15/gitlab/`
 
-4. For the gitlab-ci token enter the generated token:(**Note: Get the token from Gitlab**)\
+4. Enter the registration token: (**Note: Use the Registration token copied in the previous step)**)\
 For Example: `85y84QhgbyaqWo38b7qg`
 
 5. For a description for the runner enter:\
@@ -371,7 +392,17 @@ For Example: `85y84QhgbyaqWo38b7qg`
 10. Restart the runner:\
 `sudo gitlab-runner restart`
 
-11. Finally, in GitLab change the configuration of the runner to accept jobs without TAGS
+11. Finally, in GitLab change the configuration of the runner to accept jobs without TAGS\
+**_Follow below steps_**
+* Open **Gitlab**
+* Select the project **welcomeWebApllication**
+* Click on **Settings**
+* Select **CI/CD**
+* Click on **Runners** (Scroll down)
+* You will see a runner registered
+* Click on **Edit**
+* Click the check box **Indicates whether this runner can pick jobs without tags**
+* Click Save changes
 
 ### Register 2nd runner in Integration server
 Note: This shell runner for executing the python script to extract the metrics details
@@ -405,31 +436,6 @@ For Example: `85y84QhgbyaqWo38b7qg`
 10. Finally, in GitLab change the configuration of the runner to accept jobs without TAGS
 
 ## Push Source Code to Gitlab
-
-### Clone “welcomewebapplication” repository on your local working computer
-
-1. go to `cd <root_folder>/devops/product/`
-
-2. Enter command\
-`git init`
-
-3. Enter command\
-`git clone http://192.168.56.15/gitlab/seeproject/welcomewebapplication.git`
-
-4.It will ask for the credentials. Enter the Gitlab details
-* username: devops
-* password: $PROJECT_PASSWORD
-
-#### **** Test Case ****
-
-Test Steps:
-
-1. go to `cd ~/<root_folder>/devops/product/`
-
-Post conditions:
-* A folder with name _welcomewebapplication_ should have created
-
-#### **** Test Case End ****
 
 ### Push source code to Gitlab repository
 
@@ -468,6 +474,7 @@ Test Steps:
 
 Post conditions:
 - You have successfully logged in to **_stage-vm-welcome_** virtual machine
+- Exit from the VM using command `exit`
 
 #### **** Test Case End ***
 
@@ -506,7 +513,7 @@ For Example: `85y84QhgbyaqWo38b7qg`
 
 11. Finally, in GitLab change the configuration of the runner to accept jobs without TAGS
 
-12. Grant sudo permissions to the gitlab-runner:
+12. Grant sudo permissions to the gitlab-runner:\
 `sudo usermod -a -G sudo gitlab-runner`\
 `sudo visudo`
 
@@ -536,6 +543,7 @@ Test Steps:
 
 Post conditions:
 - You have successfully logged in to **_prod-vm-welcome_** virtual machine
+- Exit from the VM using command `exit`
 
 #### *** Test Case End ***
 
@@ -574,7 +582,7 @@ For Example: `85y84QhgbyaqWo38b7qg`
 
 11. Finally, in GitLab change the configuration of the runner to accept jobs without TAGS
 
-12. Grant sudo permissions to the gitlab-runner:
+12. Grant sudo permissions to the gitlab-runner:\
 `sudo usermod -a -G sudo gitlab-runner`\
 `sudo visudo`
 
@@ -613,17 +621,21 @@ Value: $SONAR_PASSWORD (Insert the actual password)
 ```image: maven:3.6.2-jdk-8
 
 stages:
-  - sonar
-  - metrics
+  - sonar_build
+  - metrics_build
   - build
   - upload
   - deploy
+  - sonar_test
   - test
+  - metrics_test
   - production
+  - metrics_production
 
 variables:
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-
+  SONAR_ARGS: "sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_USER -Dsonar.password=$SONAR_PASSWORD"
+    
   STAGE_BASE_URL: "http://192.168.56.17:8080"
   
    # Define Tomcat's variables on Staging environment
@@ -640,18 +652,18 @@ cache:
     - .m2/repository
     - welcome-webapplication/target/
 
-sonarqube_app:
-  stage: sonar
+sonarqube_build_app:
+  stage: sonar_build
   tags:
     - integration
   script:
-    - mvn -f welcome-webapplication/pom.xml --batch-mode verify --fail-never sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=SONAR_USER -Dsonar.password=$SONAR_PASSWORD
+    - mvn -f welcome-webapplication/pom.xml --batch-mode verify --fail-never $SONAR_ARGS
 
-metrics_app:
-  stage: metrics
+metrics_build_app:
+  stage: metrics_build
   tags:
     - integration-shell
-  script: python /vagrant_scripts/get_metrics.py
+  script: python /vagrant_scripts/get_metrics.py "build"
 
 build_app:
   stage: build
@@ -670,6 +682,7 @@ upload_app:
     name: "welcome"
     paths:
       - welcome-webapplication/target/*.war
+    expire_in: 10 minutes
 
 deploy:
   stage: deploy
@@ -684,6 +697,9 @@ deploy:
     
     - echo "Set right name"
     - sudo mv $APACHE_WEBAPPS/$PRODUCT_SNAPSHOT_NAME $APACHE_WEBAPPS/$RESOURCE_NAME
+
+    - echo "Set Execute right"
+    - sudo chmod +x $APACHE_WEBAPPS/$RESOURCE_NAME
     
     - echo "Set user and group rights"
     - sudo chown tomcat:tomcat $APACHE_WEBAPPS/$RESOURCE_NAME
@@ -691,7 +707,16 @@ deploy:
     - echo "Start up Tomcat"
     - sudo sh $APACHE_BIN/startup.sh
 
-testng:
+sonar_testing:
+  stage: sonar_test
+  tags:
+    - integration
+  services:
+    - name: selenium/standalone-chrome:latest 
+  script:
+    - mvn -f welcome-webapplication.testing.testng/pom.xml --batch-mode verify --fail-never -Denv.BASEURL=$STAGE_BASE_URL test $SONAR_ARGS
+
+testing:
   stage: test
   tags:
     - integration
@@ -699,6 +724,12 @@ testng:
     - name: selenium/standalone-chrome:latest 
   script:
     - mvn -f welcome-webapplication.testing.testng/pom.xml $MAVEN_CLI_OPTS -Denv.BASEURL=$STAGE_BASE_URL test
+
+metrics_test_app:
+  stage: metrics_test
+  tags:
+    - integration-shell
+  script: python /vagrant_scripts/get_metrics.py "test"
 
 prod_deployment:
   stage: production
@@ -719,6 +750,12 @@ prod_deployment:
 
     - echo "Start up Tomcat"
     - sudo sh $APACHE_BIN/startup.sh
+
+metrics_production_app:
+  stage: metrics_production
+  tags:
+    - integration-shell
+  script: python /vagrant_scripts/get_metrics.py "production"
 ```
  
 
