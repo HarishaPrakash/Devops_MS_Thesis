@@ -50,6 +50,7 @@ _Test Steps:_
 
 Post conditions:
 - Should be able to connect "dev-vm-welcome" virtual machine
+- exit from Dev-vm-welcome vm using command `exit`
 
 #### *** Test Case End ***
 
