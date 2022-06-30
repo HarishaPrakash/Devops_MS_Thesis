@@ -757,6 +757,8 @@ metrics_production_app:
     - integration-shell
   script: python /vagrant_scripts/get_metrics.py "production"
 ```
+
+## Monitor the Metrics in Grafana Dashboard
  
 
 
