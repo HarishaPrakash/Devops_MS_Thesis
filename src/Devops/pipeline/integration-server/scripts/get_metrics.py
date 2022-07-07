@@ -16,9 +16,10 @@ import datetime
 
 url_gitlab = 'http://192.168.56.15/gitlab'
 url_sonarqube = 'http://192.168.56.15:9000'
-sonarqube_token = 'e0387577371e1d2e649b2e6e0b193671d7f5e4e9'
-gitlab_token = 'RVB6Jd-SF9CcwWy-ftnQ'
-gitlab_project_id = '2'
+
+sonarqube_token = 'paste the sonarqube token here'
+gitlab_token = 'paste the gitlab token here'
+gitlab_project_id = 'paste the Project ID here'
 
 mysql_host = 'localhost'
 mysql_database='devops'
