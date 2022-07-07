@@ -1,0 +1,11 @@
+---
+
+# Initialize the values related to MYSQL here
+
+mysql_root_pass: devops@2022
+db_user_root : root
+db_user: devops
+db_pass: devops@2022
+db_name: devops
+mysql_db_port: 3306
+

@@ -1,0 +1,95 @@
+---
+
+- name: Installing Mysql  and dependencies
+  package:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  loop:
+    - mysql-server
+    - mysql-client 
+    - python3-mysqldb
+    - libmysqlclient-dev
+  become: yes
+
+- name: Ensure root user can only login from localhost
+  mysql_user:
+    login_password: "{{ mysql_root_pass }}"
+    check_implicit_admin: yes
+    priv: "*.*:ALL,GRANT"
+    name: root
+    host: "{{ item }}"
+    password: "{{ mysql_root_pass }}"
+    state: present
+  with_items:
+    - localhost
+    - 127.0.0.1
+    - ::1
+    
+- name: Remove anonymous users
+  command: |
+    mysql -p{{ mysql_root_pass }} -ne "{{ item }}"
+  with_items:
+    - DELETE FROM mysql.user WHERE User=''
+  changed_when: False
+    
+- name: Disallow root login remotely
+  command: |
+    mysql -p{{ mysql_root_pass }} -ne "{{ item }}"
+  with_items:
+    - DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
+  changed_when: False
+    
+- name: Remove test database and access to it
+  command: |
+    mysql -p{{ mysql_root_pass }} -ne "{{ item }}"
+  with_items:
+    - DROP DATABASE IF EXISTS test
+    - DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'
+  changed_when: False
+    
+- name: Reload privilege tables
+  command: |
+    mysql -p{{ mysql_root_pass }} -ne "{{ item }}"
+  with_items:
+    - FLUSH PRIVILEGES
+  changed_when: False
+    
+- name: creating mysql user- '{{ db_name }}'
+  command: |
+    mysql -p{{ mysql_root_pass }} -ne "{{ item }}"
+  with_items:
+    - CREATE DATABASE IF NOT EXISTS {{ db_name }};
+    - CREATE USER {{ db_user }}@'localhost' IDENTIFIED BY '{{ db_pass }}';
+    - GRANT ALL PRIVILEGES ON {{ db_name }}.* TO '{{ db_user }}'@'localhost';
+    - FLUSH PRIVILEGES;
+  changed_when: False
+    
+- name: Run SQL commands against DB to create table
+  mysql_db:
+    login_host: localhost
+    login_password: "{{ db_pass }}"
+    login_user: "{{ db_user }}"
+    login_port: "{{ mysql_db_port }}"
+    name: "{{ db_name }}"
+    state: import
+    target: "{{ script_path }}/create_table.sql"
+
+- name: enter mysql database name in '{{ metrics_python_file }}' file
+  replace:
+    dest: "{{ script_path }}/{{ metrics_python_file }}"
+    regexp: "mysql_database=''"
+    replace: "mysql_database='{{ db_name }}'"
+
+- name: enter mysql name in '{{ metrics_python_file }}' file
+  replace:
+    dest: "{{ script_path }}/{{ metrics_python_file }}"
+    regexp: "mysql_user=''"
+    replace: "mysql_user='{{ db_user }}'"
+
+- name: enter mysql password in '{{ metrics_python_file }}' file
+  replace:
+    dest: "{{ script_path }}/{{ metrics_python_file }}"
+    regexp: "'mysql_password=''"
+    replace: "mysql_password='{{ db_pass }}'"
+

@@ -1,0 +1,183 @@
+# Scenario 1
+
+## Goal
+Generated WAR file in cd ~/<root_folder>/devops/pipeline/dev-vm-welcome folder
+
+## Pre-conditions
+- All the source file of the product should be available
+- run the command "mvn clean install" in the folder ~/<root_folder>/devops/pipeline/dev-vm-welcome
+  
+## Main Success Scenario
+1. Created WAR(welcome-webapplication-0.0.1-SNAPSHOT.war) file in the "target" folder
+
+
+# Scenario 2
+
+## Goal
+Tested product in "dev-vm-welcome" (development environment) virtual machine
+
+## Pre-conditions
+- WAR(welcome-webapplication-0.0.1-SNAPSHOT.war) file in the "target" folder ~/<root_folder>/devops/pipeline/dev-vm-welcome/target should be available
+- "dev-vm-welcome" virtual machine should be up and running
+  
+## Main Success Scenario
+1. Open browser
+2. Enter Url: http://192.168.33.14:8080/welcome/welcome
+3. Web page with text "Welcome Stranger!" should open
+
+
+# Scenario 3
+
+## Goal
+Integration server is created successfully
+
+## Pre-conditions
+- Created the Integration server VM and Installed Gitlab and Docker
+  
+## Main Success Scenario
+1. Open browser
+2. Enter Url: http://192.168.33.9/gitlab/
+3. Should be able to access Gitlab
+
+# Scenario 4
+
+## Goal
+A git repository named "welcomeWebApplication" is successfully created.  
+
+
+## Pre-conditions
+- Gitlab is up and running  
+- A user account different from root has been created
+
+  
+## Main Success Scenario
+1. Log in to GitLab using a NO root account
+2. Create project and name it welcomeWebApplication
+3. Follow the instructions to create the remote and local repositories as indicated by gitlab.
+4. Commit and push to the remote repository.
+
+
+# Scenario 5
+
+## Goal
+Pushed “welcome-webapplication” and “welcome-webapplication.testing.testng” folders to Gitlab repository "welcomeWebApplication"
+
+
+## Pre-conditions
+- Gitlab is up and running  
+- Pushed “welcome-webapplication” and “welcome-webapplication.testing.testng” folders
+
+  
+## Main Success Scenario
+1. Log in to GitLab using "seeproject" account
+2. Open the repository "welcomeWebApplication"
+3. Folders “welcome-webapplication” and “welcome-webapplication.testing.testng” should be available in the repository
+
+
+# Scenario 6
+
+## Goal
+Runner in Integration server successfully created
+
+
+## Pre-conditions
+- Integration server is up and running
+- git repository named "welcomeWebApplication" is successfully created
+  
+## Main Success Scenario
+1. Log in to "integration-server" vm
+2. Register the Runner with executor as docker
+3. The Runner should be visible in the Gitlab
+
+
+# Scenario 7
+
+## Goal
+"stage-vm-welcome" VM successfully created
+
+
+## Pre-conditions
+- vagrant file should be available in the folder <root_folder>/devops/pipeline/stage-vm-welcome  
+
+## Main Success Scenario
+1. Goto folder <root_folder>/devops/pipeline/stage-vm-welcome 
+2. run the command "vagrant up"
+3. "stage-vm-welcome" vm is created
+
+ 
+# Scenario 8
+
+## Goal
+runner for "stage-vm-welcome" successfully created
+
+
+## Pre-conditions
+- stage-vm-welcome should be created and up and running
+- Integration server is up and running 
+
+## Main Success Scenario
+1. Login to stage-vm-welcome VM 
+2. Register the Runner with executor as shell
+3. The Runner should be visible in the Gitlab
+
+
+# Scenario 9
+
+## Goal
+"prod-vm-welcome" VM successfully created
+
+
+## Pre-conditions
+- vagrant file should be available in the folder <root_folder>/devops/pipeline/prod-vm-welcome  
+
+## Main Success Scenario
+1. Goto folder <root_folder>/devops/pipeline/prod-vm-welcome 
+2. run the command "vagrant up"
+3. "prod-vm-welcome" vm is created
+
+ 
+# Scenario 10
+
+## Goal
+runner for "prod-vm-welcome" successfully created
+
+## Pre-conditions
+- prod-vm-welcome should be created and up and running
+- Integration server is up and running 
+
+## Main Success Scenario
+1. Login to prod-vm-welcome VM
+2. Register the Runner with executor as shell
+3. The Runner should be visible in the Gitlab
+
+
+# Scenario 11
+
+## Goal
+To run the pipeline
+
+## Pre-conditions
+- integration-server, stage-vm-welcome, prod-vm-welcome is up and running
+- runner for integration-server, stage-vm-welcome, prod-vm-welcome is created
+- Product files are pushed in to the Gitlab repository
+
+## Main Success Scenario
+1. Create a .gitlab-ci.yml in Gitlab repository
+2. pipeline run from end to end (stages: build, upload, deploy, test and production)
+
+
+# Scenario 12
+
+## Goal
+Product is accessible in Production machine (prod-vm-welcome VM)
+
+## Pre-conditions
+- Pipeline ran successfully
+
+## Main Success Scenario
+1. open browser
+2. open http://192.168.33.18:8080/welcome/welcome
+3. web page with text as "Welcome Stranger!" should appear
+
+
+

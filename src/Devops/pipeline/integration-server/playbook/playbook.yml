@@ -1,0 +1,40 @@
+# vim: ts=2
+---
+- hosts: all
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+    
+  
+  vars:
+    vHome: /home/vagrant
+    script_path: /vagrant_scripts
+    metrics_python_file: get_metrics.py
+
+  tasks:
+
+    - name: apt install nmap
+      apt:
+        name: nmap
+        state: present
+
+    - name: apt install nmap
+      apt:
+        name: nmap
+        state: present
+
+    - include_role:
+        name: mysql
+
+    - include_role:
+        name: gitlab
+        
+    - include_role:
+        name: sonarqube
+
+    - include_role:
+        name: docker
+
+    - name: Unconditionally reboot the machine with all defaults
+      reboot:
+        reboot_timeout: 600

@@ -1,0 +1,143 @@
+- name: Utility present
+  ansible.builtin.package:
+    name: python3-psycopg2
+    state: present
+    
+- name: add repository
+  apt_repository:
+    repo: ppa:openjdk-r/ppa
+
+- name: Update apt package manager repositories cache
+  become: true
+  apt:
+    update_cache: yes
+
+- name: Install Java using Ansible
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - openjdk-11-jdk
+
+- name: Set up Postgres Sql
+  shell: |
+    echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list 
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+    sudo apt install postgresql postgresql-contrib -y
+    sudo systemctl enable postgresql
+    sudo systemctl start postgresql
+  args:
+    warn: no
+
+- name: Create sonarqube database
+  postgresql_db:
+    state: present
+    name: "{{ sonar_db }}"
+  become: yes
+  become_user: postgres
+    
+- name: Connect to sonarqube database, create db user sonar, and grant access to db
+  postgresql_user:
+    db: "{{ sonar_db }}"
+    name: "{{ sonar_db_user }}"
+    password: "{{ sonar_db_pass }}"
+    priv: ALL
+  become: yes
+  become_user: postgres
+    
+- name: Enable Postgresql
+  systemd:
+    name: postgresql
+    enabled: yes
+
+- name: Start Postgresql
+  systemd:
+    name: postgresql
+    state: started
+
+- name: Install Sonarqube application
+  shell: |
+    sudo apt-get install zip -y
+    wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.9.8.54436.zip
+    sudo unzip sonarqube-8.9.8.54436.zip
+    sudo unzip sonarqube-8.9.8.54436.zip -d /opt
+    sudo mv /opt/sonarqube-8.9.8.54436 /opt/sonarqube
+    sudo groupadd sonar
+    sudo useradd -d /opt/sonarqube -g sonar sonar
+    sudo chown sonar:sonar /opt/sonarqube -R
+  args:
+    warn: no
+
+- name: Configure SonarQube DB username
+  lineinfile:
+    path: "{{ sonar_property_file_path }}"
+    regexp: "^sonar.jdbc.username="
+    insertafter: "^#sonar.jdbc.username="
+    line: "sonar.jdbc.username={{ sonar_db_user }}"
+    
+- name: Configure SonarQube DB password
+  lineinfile:
+    path: "{{ sonar_property_file_path }}"
+    regexp: "^sonar.jdbc.password="
+    insertafter: "^#sonar.jdbc.password="
+    line: "sonar.jdbc.password={{ sonar_db_pass }}"
+    
+- name: Configure SonarQube DB connection string
+  lineinfile:
+    path: "{{ sonar_property_file_path }}"
+    regexp: "sonar.jdbc.url=jdbc:postgresql://localhost/sonar"
+    insertafter: "^#sonar.jdbc.url=jdbc:postgresql://localhost/sonar"
+    line: "sonar.jdbc.url=jdbc:postgresql://localhost:5432/sonarqube"
+    
+- name: Configure SonarQube to run as the sonar user
+  lineinfile:
+    path: "{{ sonar_sh_file_path }}"
+    regexp: "RUN_AS_USER=sonar"
+    insertafter: "#RUN_AS_USER="
+    line: "RUN_AS_USER={{sonar_user}}"
+
+- name: Creating an sonar.service file
+  file:
+    path: "{{ sonar_service_file_path }}"
+    state: touch
+
+- name: Copy a new "ntp.conf" file into place, backing up the original if it differs from the copied version
+  ansible.builtin.copy:
+    src: "{{script_path}}/sonar.service"
+    dest: "{{ sonar_service_file_path }}"
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0777'
+    
+- name: Install Sonarqube application
+  shell: |
+    sudo systemctl enable sonar
+    sudo systemctl start sonar
+    sudo systemctl status sonar
+  args:
+    warn: no
+    
+- name: add lines
+  lineinfile: 
+    dest: /etc/sysctl.conf
+    line: '{{ item }}'
+  with_items:
+    - 'vm.max_map_count=262144'
+    - 'fs.file-max=65536'
+    - 'ulimit -n 65536'
+    - 'ulimit -u 4096'
+
+- name: enter sonarqube url in '{{ metrics_python_file }}' file
+  replace:
+    dest: "{{ script_path }}/{{ metrics_python_file }}"
+    regexp: "url_sonarqube = ''"
+    replace: "url_sonarqube = '{{ sonarqube_url }}'"
+
+
+    
+
+
+

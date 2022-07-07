@@ -1,0 +1,101 @@
+---
+
+- name: "Create Downloads folder"
+  file:
+    path: "{{ destination }}"
+    state: directory
+
+- name: "Update repositories cache." 
+  apt:
+    update_cache: yes
+
+
+- name: "Safe system upgrade via aptitude."
+  apt: 
+    upgrade: safe        
+
+
+- name: "Check if GitLab configuration file already exists."
+  stat: path=/etc/gitlab/gitlab.rb
+  register: gitlab_config_file
+
+
+- name: "Check if GitLab is already installed."
+  stat: path=/usr/bin/gitlab-ctl
+  register: gitlab_file
+
+
+- name: "Install GitLab dependencies."
+  package: name={{ item }} state=present
+  with_items:
+    - openssh-server
+    - ca-certificates
+    - curl
+    - openssl
+    - tzdata
+
+    
+- name: "Download GitLab repository installation script."
+  get_url:
+    url: "{{ gitlab_repository_installation_script_url }}"
+    dest: /tmp/gitlab_install_repository.sh
+    validate_certs: "{{ gitlab_download_validate_certs }}"
+  when: not gitlab_file.stat.exists
+  
+
+- name: "Install GitLab repository."
+  command: bash /tmp/gitlab_install_repository.sh
+  when: not gitlab_file.stat.exists
+  
+
+- name: "Define the Gitlab package name."
+  set_fact:
+    gitlab_package_name: "{{ gitlab_edition }}{{ gitlab_package_version_separator }}{{ gitlab_version }}"
+  when: gitlab_version != ''
+
+
+- name: "Install GitLab"
+  package:
+    name: "{{ gitlab_package_name | default(gitlab_edition) }}"
+    state: present
+  when: not gitlab_file.stat.exists
+  
+- name: "replace exteranl_url"
+  replace:
+    dest: /etc/gitlab/gitlab.rb
+    regexp: 'external_url ''http://gitlab.example.com'''
+    replace: 'external_url ''{{ url_gitlab }}'''
+       
+- name: "replace unicorn"
+  replace:
+    dest: /etc/gitlab/gitlab.rb
+    regexp: '^# unicorn[\W]+port[\W]+8080'
+    replace: 'unicorn[''port''] = {{ gitlab_port }}'
+
+- name: "replace url in {{ metrics_python_file }} file "
+  replace:
+    dest: "{{ script_path }}/{{ metrics_python_file }}"
+    regexp: "url_gitlab = ''"
+    replace: "url_gitlab = '{{ url_gitlab }}'"
+
+- name: add lines to enable Grafana
+  lineinfile: 
+    dest: /etc/gitlab/gitlab.rb
+    line: '{{ item }}'
+  with_items:
+    - grafana['disable_login_form'] = false
+    - grafana['admin_password'] = 'admin'
+    - grafana['allow_user_sign_up'] = true
+
+- name: "Reconfigure Gitlab"
+  command: sudo gitlab-ctl reconfigure
+
+- name: "Restart Unicorn Gitlab"
+  command: sudo gitlab-ctl restart unicorn
+  
+- name: "Restart Gitlab"
+  command: sudo gitlab-ctl restart
+
+
+
+

@@ -1,0 +1,14 @@
+---
+
+# Variables related to sonarqube listed below
+# Initialize the varibales with correct values before creating VM
+# DO NOT CHANGE values until it is neccessary
+
+sonar_user: sonar
+sonar_db: sonarqube
+sonar_db_user: sonar
+sonar_db_pass: sonar@2022
+sonar_property_file_path: /opt/sonarqube/conf/sonar.properties
+sonar_sh_file_path: /opt/sonarqube/bin/linux-x86-64/sonar.sh
+sonar_service_file_path: /etc/systemd/system/sonar.service
+sonarqube_url: 'http://192.168.56.15:9000'
