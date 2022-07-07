@@ -15,8 +15,9 @@ Dedicated repository for Master thesis
 * Ansible (v 2.7.5, or higher)
 
 #### Download the replication package
-* Download the folder **Devops** from this repository
+* Download the folder **Devops** inside the **src** folder in this repository
 * Unzip the file
+* Follow the below instructions to replicate the experiment setup
 
 
 ## Development Environment
