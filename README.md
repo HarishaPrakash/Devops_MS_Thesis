@@ -759,7 +759,20 @@ metrics_production_app:
 ```
 
 ## Monitor the Metrics in Grafana Dashboard
- 
+
+**Prerequistes:**
+- Grafana, Gitlab and Sonarqube are set up properly
+- Grafana dashboard is imported successfully
+- Mysql source connection is created successfully
+- The pipeline should have run for multiple times (for better visualization of data).
+
+### Login to Grafana
+
+1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
+
+2. Login with user **_admin_** and password (**_$GRAFANA_PASSWORD_**)
+
+3. Referesh the dashboard to visualize the data
 
 
 
