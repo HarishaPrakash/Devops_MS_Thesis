@@ -619,7 +619,8 @@ Value: $SONAR_PASSWORD (Insert the actual password)
 2. Open the "welcomeWebApplication" repository
 3. create a new file with the name `.gitlab-ci.yml`
 
-```image: maven:3.6.2-jdk-8
+```
+image: maven:3.6.2-jdk-8
 
 stages:
   - sonar_build
