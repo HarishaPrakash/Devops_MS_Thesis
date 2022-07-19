@@ -288,7 +288,7 @@ Password: devops@2022
 
 11. Click on **Back**
 
-### Import dashboard into Grafana
+### Import 1st dashboard into Grafana
 
 1. Click on **Create** icon on the left hand side bar (**+** symbol)
 
@@ -297,7 +297,19 @@ Password: devops@2022
 3. Click on **Upload JSON file**
 
 4. Select the below file\
-`cd <root_folder>/devops/pipeline/integration-server/scripts/grafana_dashboard.json`
+`cd <root_folder>/devops/pipeline/integration-server/scripts/Grafana_Dashboard_Devops.json`
+
+5. Click on **Import**
+
+### Import 2nd dashboard into Grafana
+1. Click on **Create** icon on the left hand side bar (**+** symbol)
+
+2. Select the **Import** option
+
+3. Click on **Upload JSON file**
+
+4. Select the below file\
+`cd <root_folder>/devops/pipeline/integration-server/scripts/Grafana_Dashboard_Test_Case.json`
 
 5. Click on **Import**
 
@@ -770,7 +782,7 @@ metrics_production_app:
 
 ### Login to Grafana
 
-1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
+1. Open URL http://192.168.56.15:3000 in a web browser
 
 2. Login with user **_admin_** and password (**_$GRAFANA_PASSWORD_**)
 
