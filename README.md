@@ -718,6 +718,12 @@ sonar_testing:
   script:
     - mvn -f welcome-webapplication.testing.testng/pom.xml --batch-mode verify --fail-never -Denv.BASEURL=$STAGE_BASE_URL test $SONAR_ARGS
 
+metrics_test_app:
+  stage: metrics_test
+  tags:
+    - integration-shell
+  script: python /vagrant_scripts/get_metrics.py "test"
+
 testing:
   stage: test
   tags:
@@ -726,12 +732,6 @@ testing:
     - name: selenium/standalone-chrome:latest 
   script:
     - mvn -f welcome-webapplication.testing.testng/pom.xml $MAVEN_CLI_OPTS -Denv.BASEURL=$STAGE_BASE_URL test
-
-metrics_test_app:
-  stage: metrics_test
-  tags:
-    - integration-shell
-  script: python /vagrant_scripts/get_metrics.py "test"
 
 prod_deployment:
   stage: production
