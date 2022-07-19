@@ -100,7 +100,7 @@ Post conditions:
 Test case: Check if the **Grafana** is accessible in below URL\
 
 _Test Steps:_
-1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
+1. Open URL http://192.168.56.15:3000 in a web browser
 
 Post conditions:
 - Grafana is accessible at the indicated URL
