@@ -14,12 +14,14 @@ import datetime
 
 #Varibale Initialization
 
+#Gitlab Information
 url_gitlab = 'http://192.168.56.15/gitlab'
-url_sonarqube = 'http://192.168.56.15:9000'
-
-sonarqube_token = 'paste the sonarqube token here'
 gitlab_token = 'paste the gitlab token here'
 gitlab_project_id = 'paste the Project ID here'
+
+#Sonar Information
+url_sonarqube = 'http://192.168.56.15:9000'
+sonarqube_token = 'paste the sonarqube token here'
 
 mysql_host = 'localhost'
 mysql_database='devops'
@@ -35,11 +37,11 @@ query_metrics_table = """CREATE TABLE  IF NOT EXISTS metrics(commit_id varchar(1
                             nloc_deleted integer(100),
                             change_rate DOUBLE,
                             cyclomatic_complexity integer(100),
-                            effective_cylomatic_complexity DOUBLE,
+                            effective_cyclomatic_complexity DOUBLE,
                             unit_test_case integer(100),
                             failed_unit_test_case integer(100),
-                            integration_test_case integer(100),
-                            failed_integration_test_case integer(100),
+                            acceptance_test_case integer(100),
+                            failed_acceptance_test_case integer(100),
                             production_deployment datetime
                             );"""
    
@@ -156,7 +158,7 @@ if(sys.argv[1] == 'build'):
             change_rate = ((float(nloc_added)+float(nloc_deleted))/float(prev_nloc))*100
             change_rate = round(change_rate, 2)
   
-        cursor.execute("INSERT INTO metrics(commit_id, commiter_name, committed_date, nloc, nloc_added, nloc_deleted, change_rate, cyclomatic_complexity, effective_cylomatic_complexity, unit_test_case, failed_unit_test_case) values(\""+str(commit_id)+"\",\""+str(commiter_name)+"\",\""+str(committed_date)[0:22]+"\",\""+str(nloc)+"\",\""+str(nloc_added)+"\",\""+str(nloc_deleted)+"\",\""+str(change_rate)+"\",\""+str(complexity)+"\",\""+str(eff_cyclomatic_complexity)+"\",\""+str(unit_test_case)+"\",\""+str(failed_unit_test_case)+"\");")
+        cursor.execute("INSERT INTO metrics(commit_id, commiter_name, committed_date, nloc, nloc_added, nloc_deleted, change_rate, cyclomatic_complexity, effective_cyclomatic_complexity, unit_test_case, failed_unit_test_case) values(\""+str(commit_id)+"\",\""+str(commiter_name)+"\",\""+str(committed_date)[0:22]+"\",\""+str(nloc)+"\",\""+str(nloc_added)+"\",\""+str(nloc_deleted)+"\",\""+str(change_rate)+"\",\""+str(complexity)+"\",\""+str(eff_cyclomatic_complexity)+"\",\""+str(unit_test_case)+"\",\""+str(failed_unit_test_case)+"\");")
         cursor.execute(query_commit)
         print("Metrics data for Build stage is recorded in Database")
 
@@ -184,10 +186,10 @@ if(sys.argv[1] == 'build'):
 
 elif(sys.argv[1] == 'test'):
     #API call to get integration test case
-    integration_test_case = api_call_sonarqube(url_integration_test)
+    acceptance_test_case = api_call_sonarqube(url_integration_test)
 
     #API call to get failed integration test case
-    failed_integration_test_case = api_call_sonarqube(url_failed_integration_test)
+    failed_acceptance_test_case = api_call_sonarqube(url_failed_integration_test)
    
     try:
         mysql_connnection = mysql_connnection()
@@ -195,7 +197,7 @@ elif(sys.argv[1] == 'test'):
         cursor = mysql_connnection.cursor()
         cursor.execute(query_metrics_table)
    
-        cursor.execute("UPDATE metrics SET integration_test_case =\""+str(integration_test_case)+"\" , failed_integration_test_case = \""+str(failed_integration_test_case)+"\" WHERE commit_id=\""+str(commit_id)+"\";")     
+        cursor.execute("UPDATE metrics SET acceptance_test_case =\""+str(acceptance_test_case)+"\" , failed_acceptance_test_case = \""+str(failed_acceptance_test_case)+"\" WHERE commit_id=\""+str(commit_id)+"\";")     
         cursor.execute(query_commit)
         print("Metrics data for Test stage is recorded in Database")
 
@@ -209,8 +211,8 @@ elif(sys.argv[1] == 'test'):
             print("INFO:MySQL connection is closed successfully")
 
     if(True):
-        print("integration_test_case",integration_test_case)
-        print("failed_integration_test_case",failed_integration_test_case)
+        print("acceptance_test_case",acceptance_test_case)
+        print("failed_acceptance_test_case",failed_acceptance_test_case)
 
 elif(sys.argv[1] == 'production'):
     try:
@@ -231,3 +233,4 @@ elif(sys.argv[1] == 'production'):
             print("INFO:MySQL connection is closed successfully")
 else:
     raise Exception("ERROR: Please check argument value passed is correct")
+
