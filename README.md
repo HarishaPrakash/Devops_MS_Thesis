@@ -252,7 +252,7 @@ Post conditions:
 
 ### Reset Grafana Password
 
-1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
+1. Open URL http://192.168.56.15:3000 in a web browser
 
 2. Enter the details\
 username: `admin`\
@@ -262,7 +262,7 @@ password: `admin`
 
 ### Create Datasource in Grafana
 
-1. Open URL http://192.168.56.15/gitlab/-/grafana in a web browser
+1. Open URL http://192.168.56.15:3000 in a web browser
 
 2. Login with user **_admin_** and password (**_$GRAFANA_PASSWORD_**)
 
