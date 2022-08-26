@@ -1,0 +1,138 @@
+image: maven:3.6.2-jdk-8
+
+stages:
+  - sonar_build
+  - metrics_build
+  - build
+  - upload
+  - deploy
+  - sonar_test
+  - test
+  - metrics_test
+  - production
+  - metrics_production
+
+variables:
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+  SONAR_ARGS: "sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_USER -Dsonar.password=$SONAR_PASSWORD"
+    
+  STAGE_BASE_URL: "http://192.168.56.17:8080"
+  
+   # Define Tomcat's variables on Staging environment
+  APACHE_HOME: "/opt/tomcat"
+  APACHE_BIN: "$APACHE_HOME/bin"
+  APACHE_WEBAPPS: "$APACHE_HOME/webapps"
+  
+  # Define product's variables
+  PRODUCT_SNAPSHOT_NAME: "welcome-webapplication-0.0.1-SNAPSHOT.war"
+  RESOURCE_NAME: "welcome.war"
+  
+cache:
+  paths:
+    - .m2/repository
+    - welcome-webapplication/target/
+
+sonarqube_build_app:
+  stage: sonar_build
+  tags:
+    - integration
+  script:
+    - mvn -f welcome-webapplication/pom.xml --batch-mode verify --fail-never $SONAR_ARGS
+
+metrics_build_app:
+  stage: metrics_build
+  tags:
+    - integration-shell
+  script: python /vagrant_scripts/get_metrics.py "build"
+
+build_app:
+  stage: build
+  tags:
+    - integration
+  script:
+    - mvn -f welcome-webapplication/pom.xml $MAVEN_CLI_OPTS clean install
+
+upload_app:
+  stage: upload
+  tags:
+    - integration
+  script:
+    - echo "Upload WAR file"
+  artifacts:
+    name: "welcome"
+    paths:
+      - welcome-webapplication/target/*.war
+    expire_in: 10 minutes
+
+deploy:
+  stage: deploy
+  tags:
+    - stage-vm-welcome-shell
+  script:
+    - echo "Shutdown Tomcat"
+    - sudo sh $APACHE_BIN/shutdown.sh
+    
+    - echo "Deploy generated product into the stage-vm-welcome environment" 
+    - sudo cp welcome-webapplication/target/$PRODUCT_SNAPSHOT_NAME $APACHE_WEBAPPS
+    
+    - echo "Set right name"
+    - sudo mv $APACHE_WEBAPPS/$PRODUCT_SNAPSHOT_NAME $APACHE_WEBAPPS/$RESOURCE_NAME
+
+    - echo "Set Execute right"
+    - sudo chmod +x $APACHE_WEBAPPS/$RESOURCE_NAME
+    
+    - echo "Set user and group rights"
+    - sudo chown tomcat:tomcat $APACHE_WEBAPPS/$RESOURCE_NAME
+    
+    - echo "Start up Tomcat"
+    - sudo sh $APACHE_BIN/startup.sh
+
+sonar_testing:
+  stage: sonar_test
+  tags:
+    - integration
+  services:
+    - name: selenium/standalone-chrome:latest 
+  script:
+    - mvn -f welcome-webapplication.testing.testng/pom.xml --batch-mode verify --fail-never -Denv.BASEURL=$STAGE_BASE_URL test $SONAR_ARGS
+
+metrics_test_app:
+  stage: metrics_test
+  tags:
+    - integration-shell
+  script: python /vagrant_scripts/get_metrics.py "test"
+
+testing:
+  stage: test
+  tags:
+    - integration
+  services:
+    - name: selenium/standalone-chrome:latest 
+  script:
+    - mvn -f welcome-webapplication.testing.testng/pom.xml $MAVEN_CLI_OPTS -Denv.BASEURL=$STAGE_BASE_URL test
+
+prod_deployment:
+  stage: production
+  tags:
+    - prod-vm-welcome-shell
+  script:
+    - echo "Shutdown Tomcat"
+    - sudo sh $APACHE_BIN/shutdown.sh
+
+    - echo "Deploy generated product into the prod-vm-welcome environment" 
+    - sudo cp welcome-webapplication/target/$PRODUCT_SNAPSHOT_NAME $APACHE_WEBAPPS
+
+    - echo "Set right name"
+    - sudo mv $APACHE_WEBAPPS/$PRODUCT_SNAPSHOT_NAME $APACHE_WEBAPPS/$RESOURCE_NAME
+
+    - echo "Set user and group rights"
+    - sudo chown tomcat:tomcat $APACHE_WEBAPPS/$RESOURCE_NAME
+
+    - echo "Start up Tomcat"
+    - sudo sh $APACHE_BIN/startup.sh
+
+metrics_production_app:
+  stage: metrics_production
+  tags:
+    - integration-shell
+  script: python /vagrant_scripts/get_metrics.py "production"
